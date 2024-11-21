@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGMUS - Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>SIGMUS</h1>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/formulario">formulario de Inscrições</a></li>
+                <li><a href="/integrantes">Integrantes</a></li>
+                <li><a href="/administrador">Página do Administrador 🔒</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="highlights">
+            <h2>Nossos Jogos Favoritos</h2>
+            <div class="game-list">
+                <div class="game-item">
+                    <img src="{{ url_for('static', filename='lol.jpg') }}" alt="League of Legends">
+                    <p>League of Legends</p>
+                </div>
+                <div class="game-item">
+                    <img src="{{ url_for('static', filename='dota2.jpg') }}" alt="Dota 2">
+                    <p>Dota 2</p>
+                </div>
+                <div class="game-item">
+                    <img src="{{ url_for('static', filename='cs2.jpg') }}" alt="CS:GO 2">
+                    <p>CS:GO 2</p>
+                </div>
+            </div>
+        </section>
+        <br>
+        <section class="hero">
+            <h1>Bem-vindo ao Mundo dos E-sports</h1>
+            <p>Explore jogos incríveis como <strong>League of Legends</strong>, <strong>Dota 2</strong>, <strong>CS:GO 2</strong> e muito mais.</p>
+            <p>Conheça nossa equipe e acompanhe nossa jornada nos campeonatos eletrônicos!</p>
+        
+            <div class="game-description">
+                <h2 class="game-title">League of Legends (LoL)</h2>
+                <p class="game-text"><strong>League of Legends</strong> é um jogo de MOBA (Multiplayer Online Battle Arena) desenvolvido pela Riot Games. Em LoL, duas equipes de cinco jogadores competem para destruir a base inimiga, o Nexus, enquanto protegem o seu próprio. O jogo exige estratégia, trabalho em equipe e habilidade individual.<br><br></p>
+            </div>
+        
+            <div class="game-description">
+                <h2 class="game-title">Dota 2</h2>
+                <p class="game-text"><strong>Dota 2</strong> é outro jogo de MOBA, desenvolvido pela Valve. Semelhante a League of Legends, equipes de cinco jogadores competem em mapas com objetivos estratégicos, buscando destruir a base adversária. Dota 2 é conhecido por sua complexidade, variedade de heróis e pela importância das decisões táticas durante a partida.<br><br></p>
+            </div>
+        
+            <div class="game-description">
+                <h2 class="game-title">Counter-Strike 2 (CS:GO 2)</h2>
+                <p class="game-text"><strong>Counter-Strike 2</strong> é a mais recente versão da famosa franquia de FPS (First-Person Shooter) da Valve. Nesse jogo, equipes de terroristas e contra-terroristas se enfrentam em várias modalidades, sendo a mais popular a de plantar ou desarmar uma bomba. O jogo é aclamado por seu ritmo rápido, jogabilidade tática e competitividade.<br><br></p>
+            </div>
+        
+            <div class="game-description">
+                <h2 class="game-title">Outros Jogos</h2>
+                <p class="game-text">Além de League of Legends, Dota 2 e Counter-Strike 2, existem muitos outros jogos eletrônicos que fazem parte da cena competitiva. Jogos como Valorant, Overwatch e Fortnite também são populares em campeonatos e têm uma grande base de fãs.<br><br></p>
+            </div>
+        </section>
+        
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 SIGMUS Team | Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

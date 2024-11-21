@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGMUS - Integrantes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>SIGMUS Team</h1>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/formulario">Formulario de Inscrições</a></li>
+                <li><a href="/administrador">Página do Administrador 🔒</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <section class="team">
+            <h1>Conheça os Integrantes</h1>
+            <div class="team-list">
+                <div class="member">
+                    <img src="{{ url_for('static', filename='elias.jpg') }}" alt="Foto de Elias">
+                    <h3>Elias</h3>
+                </div>
+                <div class="member">
+                    <img src="{{ url_for('static', filename='mariana.jpg') }}" alt="Foto de Mariana">
+                    <h3>Mariana</h3>
+                </div>
+                <div class="member">
+                    <img src="{{ url_for('static', filename='Gui.jpg') }}" alt="Foto de Guilherme">
+                    <h3>Guilherme</h3>
+                </div>
+                <div class="member">
+                    <img src="{{ url_for('static', filename='lucas.jpg') }}" alt="Foto de Lucas">
+                    <h3>Lucas</h3>
+                </div>
+            </div>
+
+            <section style="text-align: left;"">
+                <h1 style="text-align: center;">Sobre o Projeto</h1>
+                <p>Este projeto foi desenvolvido em grupo, com foco em trabalho em equipe e colaboração. Realizado no ano corrente pela turma de AP II, da FIPP - Faculdade de Informática de Presidente Prudente, vinculada à Universidade Unoeste.</p>
+            
+                <h2 style="text-align: center;">Entrega da Parte 2 do Projeto - Organização de Campeonatos de Jogos Digitais</h2>
+                                
+                <h4>Conteúdo:</h4>
+                <p>Implementação dos módulos dinâmicos utilizando o Projeto da Etapa 1 (pasta com o código fonte). Devem gravar os dados do formulário que possuem na interface (front-end) numa tabela no banco de dados em SQLite.</p>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2024 SIGMUS Team | Todos os direitos reservados.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGMUS - Administrador</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script defer src="{{ url_for('static', filename='admin.js') }}"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <h1>SIGMUS Team</h1>
+        </div>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/formulario">Formulário</a></li>
+                <li><a href="/integrantes">Integrantes</a></li>
+                <li><a href="/administrador">Página do Administrador 🔒</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <h1>Página do Administrador</h1>
+        <p style="text-align: center;">Aqui você pode gerenciar os conteúdos do site.</p>
+
+        <section id="admin-section">
+            <h2 style="text-align: left;">Inscrições</h2>
+            <table id="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>Email</th>
+                        <th>Telefone</th>
+                        <th>Jogo</th>
+                        <th>Plataforma</th>
+                        <th>Link</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!-- Seção de Edição -->
+    <section id="edit-section" style="display:none;">
+        <h2 style="text-align: center;">Editar Registro</h2>
+        <form id="editForm">
+            <input type="hidden" id="editId">
+            
+            <label for="nomeInput">Nome:</label>
+            <input type="text" id="nomeInput" required>
+    
+            <label for="emailInput">E-mail:</label>
+            <input type="email" id="emailInput" required>
+    
+            <label for="telefoneInput">Telefone:</label>
+            <input type="tel" id="telefoneInput" required>
+    
+            <label for="jogoInput">Jogo:</label>
+            <input type="text" id="jogoInput" required>
+    
+            <label for="plataformaInput">Plataforma:</label>
+            <input type="text" id="plataformaInput" required>
+    
+            <label for="linkInput">Link:</label>
+            <input type="url" id="linkInput" required>
+    
+            <input type="submit" value="Atualizar">
+        </form>
+    </section>
+
+    <script>
+        async function loadTableData() {
+            try {
+                const response = await fetch('/api/formulario');
+                if (!response.ok) throw new Error('Erro ao carregar dados.');
+                const data = await response.json();
+                
+                //limpa a tabela
+                const tableBody = document.querySelector('#data-table tbody');
+                tableBody.innerHTML = ''; 
+
+                data.forEach((item) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${item.id}</td>
+                        <td>${item.user}</td>
+                        <td>${item.email}</td>
+                        <td>${item.telefone}</td>
+                        <td>${item.jogo}</td>
+                        <td>${item.plataforma}</td>
+                        <td>${item.link}</td>
+                        <td>
+                            <button class="edit-btn" data-id="${item.id}">Editar</button>
+                            <button class="delete-btn" data-id="${item.id}">Excluir</button>
+                        </td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+
+                // Adiciona eventos
+                document.querySelectorAll('.edit-btn').forEach((button) => {
+                    button.addEventListener('click', handleEditClick);
+                });
+                document.querySelectorAll('.delete-btn').forEach((button) => {
+                    button.addEventListener('click', handleDeleteClick);
+                });
+            } catch (error) {
+                console.error(error.message);
+                alert('Erro ao carregar os dados.');
+            }
+        }
+
+        function handleEditClick(event) {
+            const id = event.target.dataset.id;
+            const row = event.target.closest('tr');
+            document.getElementById('editId').value = id;
+            document.getElementById('nomeInput').value = row.cells[1].textContent;
+            document.getElementById('emailInput').value = row.cells[2].textContent;
+            document.getElementById('telefoneInput').value = row.cells[3].textContent;
+            document.getElementById('jogoInput').value = row.cells[4].textContent;
+            document.getElementById('plataformaInput').value = row.cells[5].textContent;
+            document.getElementById('linkInput').value = row.cells[6].textContent;
+            document.getElementById('edit-section').style.display = 'block';
+        }
+
+        document.getElementById('editForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const updatedData = {
+                id: document.getElementById('editId').value,
+                user: document.getElementById('nomeInput').value,
+                email: document.getElementById('emailInput').value,
+                telefone: document.getElementById('telefoneInput').value,
+                jogo: document.getElementById('jogoInput').value,
+                plataforma: document.getElementById('plataformaInput').value,
+                link: document.getElementById('linkInput').value,
+            };
+            try {
+                const response = await fetch(`/api/formulario/${updatedData.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData),
+                });
+                if (!response.ok) throw new Error('Erro ao atualizar.');
+                alert('Registro atualizado com sucesso!');
+                loadTableData();
+                document.getElementById('edit-section').style.display = 'none';
+            } catch (error) {
+                console.error(error.message);
+                alert('Erro ao atualizar.');
+            }
+        });
+
+        async function handleDeleteClick(event) {
+            const id = event.target.dataset.id;
+            try {
+                const response = await fetch(`/api/formulario/${id}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error('Erro ao excluir.');
+                alert('Registro excluído com sucesso!');
+                loadTableData();
+            } catch (error) {
+                console.error(error.message);
+                alert('Erro ao excluir.');
+            }
+        }
+
+        window.onload = loadTableData;
+    </script>
+</body>
+</html>

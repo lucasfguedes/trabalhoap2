@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGMUS - Inscrições</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="header">
+        <h1>Inscreva-se no SIGMUS Team</h1>
+        <nav>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/integrantes">Integrantes</a></li>
+                <li><a href="/administrador">Página do Administrador 🔒</a></li>
+            </ul>
+        </nav>
+    </header>  
+    <main>
+        <!-- Formulário de Inscrição -->
+        <section>
+            <form id="cad">
+                <label for="user">Nome de Usuário:</label>
+                <input type="text" id="user" name="user" placeholder="Usuário" required>
+                
+                <label for="email">E-mail:</label>
+                <input type="email" id="email" name="email" placeholder="seuemail@gmail.com" required>
+                
+                <label for="telefone">Telefone:</label>
+                <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+                
+                <label for="jogo">Jogo:</label>
+                <select id="jogo" name="jogo" required>
+                    <option value="" disabled selected>Escolha um jogo</option>
+                    <option value="League of Legends">League of Legends</option>
+                    <option value="Dota 2">Dota 2</option>
+                    <option value="Counter-Strike 2">Counter-Strike 2</option>
+                    <option value="Overwatch 2">Overwatch 2</option>
+                    <option value="Fortnite">Fortnite</option>
+                    <option value="Multiversus">Multiversus</option>
+                    <option value="Brawlhalla">Brawlhalla</option>
+                    <option value="Rocket League">Rocket League</option>
+                </select>
+                
+                <label for="plataforma">Plataforma:</label>
+                <select id="plataforma" name="plataforma" required>
+                    <option value="" disabled selected>Escolha a plataforma</option>
+                    <option value="Desktop">Desktop</option>
+                    <option value="Mobile">Mobile</option>
+                    <option value="Console">Console</option>
+                </select>
+                
+                <label for="link">Link da Equipe:</label>
+                <input type="url" id="link" name="link" placeholder="https://example.com" required>
+                
+                <input type="submit" value="Inscrever-se">
+            </form>
+        </section>
+
+        <!-- Seção de Edição -->
+        <section id="edit-section" style="display:none;">
+            <h2>Editar Registro</h2>
+            <form id="editForm">
+                <input type="hidden" id="editId">
+                
+                <label for="nomeInput">Nome:</label>
+                <input type="text" id="nomeInput" required>
+
+                <label for="emailInput">E-mail:</label>
+                <input type="email" id="emailInput" required>
+
+                <label for="telefoneInput">Telefone:</label>
+                <input type="tel" id="telefoneInput" required>
+
+                <label for="jogoInput">Jogo:</label>
+                <input type="text" id="jogoInput" required>
+
+                <label for="plataformaInput">Plataforma:</label>
+                <input type="text" id="plataformaInput" required>
+
+                <label for="linkInput">Link:</label>
+                <input type="url" id="linkInput" required>
+
+                <input type="submit" value="Atualizar">
+            </form>
+        </section>
+    </main>
+    <footer>
+        <p>&copy; 2024 SIGMUS Team | Todos os direitos reservados.</p>
+    </footer>
+
+    <!-- Script de manipulação -->
+    <script>
+        // Função para submissão do formulário de cadastro
+        document.getElementById('cad').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = {
+                user: document.getElementById('user').value.trim(),
+                email: document.getElementById('email').value.trim(),
+                telefone: document.getElementById('telefone').value.trim(),
+                jogo: document.getElementById('jogo').value,
+                plataforma: document.getElementById('plataforma').value,
+                link: document.getElementById('link').value.trim(),
+            };
+
+            try {
+                const response = await fetch('/api/formulario', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.mensagem || 'Inscrição realizada com sucesso!');
+                    document.getElementById('cad').reset();
+                } else {
+                    alert(result.erro || 'Erro ao realizar a inscrição.');
+                }
+            } catch (error) {
+                console.error('Erro ao enviar dados:', error);
+                alert('Erro ao realizar a inscrição.');
+            }
+        });
+
+        // Função para submissão do formulário de edição
+        document.getElementById('editForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const updatedData = {
+                id: document.getElementById('editId').value,
+                user: document.getElementById('nomeInput').value.trim(),
+                email: document.getElementById('emailInput').value.trim(),
+                telefone: document.getElementById('telefoneInput').value.trim(),
+                jogo: document.getElementById('jogoInput').value.trim(),
+                plataforma: document.getElementById('plataformaInput').value.trim(),
+                link: document.getElementById('linkInput').value.trim(),
+            };
+
+            try {
+                const response = await fetch(`/api/formulario/${updatedData.id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(updatedData),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert('Registro atualizado com sucesso!');
+                    document.getElementById('edit-section').style.display = 'none';
+                } else {
+                    alert(result.erro || 'Erro ao atualizar registro.');
+                }
+            } catch (error) {
+                console.error('Erro ao atualizar dados:', error);
+                alert('Erro ao atualizar registro.');
+            }
+        });
+    </script>
+</body>
+</html>
